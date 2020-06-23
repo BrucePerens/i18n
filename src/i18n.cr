@@ -135,7 +135,8 @@ module I18n
   # or Mexican Spanish).
   #
   # Work-in-progress language translations are designated by modifying their
-  # language tag with a `"wip-` prefix. For example, a work-in-progress
+  # language tag with a `"wip-` prefix, so that the compiler does not test
+  # those translations for completion. For example, a work-in-progress
   # translation into Spanish would have the tag `"wip-es"`. To test a
   # work-in-progress translation, `language_tag` must be set to the modified
   # form. It is possible for a work-in-progress translation and a completed

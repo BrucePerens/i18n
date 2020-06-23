@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.34.0">
+<meta name="crystal_docs.project_version" content="master-dev">
+<meta name="crystal_docs.project_name" content="i18n">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="i18n">
+  <title>i18n master-dev</title>
+  <script type="text/javascript">
+  CrystalDocs.base_path = "";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="project-summary">
+      <h1 class="project-name">
+        <a href="index.html">
+          i18n
+        </a>
+      </h1>
+
+      <span class="project-version">
+        master-dev
+      </span>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="i18n/I18n" data-name="i18n">
+      <a href="I18n.html">I18n</a>
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1><a id="i18n-for-the-crystal-programming-language" class="anchor" href="#i18n-for-the-crystal-programming-language">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>i18n for the Crystal programming language</h1>
+
+<h2><a id="usage" class="anchor" href="#usage">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>Usage</h2>
+
+<pre><code>  <span class="k">include</span> <span class="t">I18n</span>
+
+  t <span class="s">&quot;Any string.&quot;</span> <span class="c"># =&gt; &quot;translated string&quot;</span></code></pre>
+
+<p>Translate a <code>String</code>, even an <strong>interpolated string</strong>. Check that a
+translation for each string, into each language, exists at compile time,
+and abort compilation with an error if one does not. Work-in-progress
+translations can indicate that a compilation check is not desired.</p>
+
+<p>An interpolated string is broken up into fixed string segments, and these
+are translated individually.</p>
+
+<p>The argument must be a constant string (including interpolated strings),
+not a method, expression, or variable. This is because much of the
+translation mechanism runs at compile-time.</p>
+
+<p>When the argument <code>-Demit-translation-strings</code> is provided to
+<code>crystal build</code>,
+the compiler will emit a table of all of the strings that are provided
+as arguments to the <code>t()</code> function, possibly including duplicates.
+These are written to <code>STDOUT</code> using the <code>Crystal::Macros#p</code> method.
+This table can be edited into a translation file by the
+programmer, and is intended to be used by a task for generating such
+files with machine translation (not yet written).</p>
+
+<p>Languages are referred to using
+<a href="https://en.wikipedia.org/wiki/IETF_language_tag" target="_blank">IETF language tags</a> .
+Two common
+language tags are "en-US" for English as spoken in the United States, and
+"en" for English not distinguishing where it is spoken.</p>
+
+<p>Translations are defined in a <code>NamedTuple</code> called <code>Translations</code>, which
+must exist in the program. Each
+translation is defined as a tuple of a language tag and an inner tuple
+containing translations into that language from the native language
+used in the program (the "coding language"). Thus, the <code>Translations</code>
+tuple looks like this:</p>
+
+<pre><code><span class="t">Translations</span> <span class="o">=</span> { <span class="c"># Assuming the coding language tag is &quot;en-US&quot;</span>
+  <span class="s">&quot;en&quot;</span> => { <span class="c"># English as spoken in most places other than the USA</span>
+    <span class="s">&quot;the color of money&quot;</span> => <span class="s">&quot;the colour of money&quot;</span>,
+  }
+  <span class="s">&quot;es&quot;</span> => { <span class="c"># Spanish (not distinguishing Spain or Mexico)</span>
+    <span class="s">&quot;the color of money&quot;</span> => <span class="s">&quot;el color del dinero&quot;</span>
+  },
+  <span class="s">&quot;es-MX&quot;</span> => { <span class="c"># Mexican Spanish</span>
+    <span class="s">&quot;the color of money&quot;</span> => <span class="s">&quot;el color del dinero&quot;</span>
+  },
+  <span class="s">&quot;de&quot;</span> => { <span class="c"># German (not distinguishing Swiss-German, etc.)</span>
+    <span class="s">&quot;the color of money&quot;</span> => <span class="s">&quot;die Farbe des Geldes&quot;</span>,
+  }
+}</code></pre>
+
+<p>A constant <code>CodingLanguage</code> must exist in the program, and is set to a
+string indicating the language used to write the native strings. So it
+would have the form <code>CodingLanguage="en-US"</code>. <code>CodingLanguage</code> should
+indicate where it is spoken, thus <code>"en-US"</code> rather than <code>"en"</code>.
+This allows, for example, a translation to correct for
+spelling differences between US English and the English spoken in the
+United Kingdom ("en-GB").</p>
+
+<p>A variable or method <code>language_tag</code> must exist, which is or returns a
+string for the language tag of the present user. So, this would be of
+the form <code>language_tag = "es"</code> for Spanish (not distinguishing Castilian
+or Mexican Spanish).</p>
+
+<p>Work-in-progress language translations are designated by modifying their
+language tag with a <code>"wip-</code> prefix, so that the compiler does not test those
+tranlations for completion. For example, a work-in-progress
+translation into Spanish would have the tag <code>"wip-es"</code>. To test a
+work-in-progress translation, <code>language_tag</code> must be set to the modified
+form. It is possible for a work-in-progress translation and a completed
+one to exist to the same language, for example <code>"wip-es"</code> and <code>"es"</code>. This
+allows the same source code to work with a working-but-awkward machine
+tranlation while a human translator produces a better version. </p>
+
+<p><span class="flag purple">NOTE</span>  Complications of Translation</p>
+
+<p>At some point you will be askng translators to translate your strings
+into different languages. You will probably start with a machine
+translation, but these can not be expected to be correct, especially
+where interpolated strings are concerned.
+There is not an exact one-to-one mapping of words in two languages to the
+same meaning. Nor can you expect the order of words in a sentence to remain
+the same, since grammars vary widely between languages.
+Thus, a translation of an interpolated string can be awkward. The original
+writer's assumptions about what belongs before and after any variables or
+expressions in the string may not carry over to the grammar of the
+translated language.</p>
+
+<p>To delve briefly into just one of the many differences between languages
+that complicate translation:
+Many languages like English have no grammatical gender for nouns, while
+others gender nouns male and female, male female and neuter, or common
+and neuter. Some languages group nouns into animate and inanimate forms,
+and some include noun class modifiers which indicate several different
+forms of a noun. Such language differences can
+require your translator to make assumptions about what you have
+written. The default gender is usually male, which can lead to your
+translation being masculinized in ways you did not expect.</p>
+</div>
+</body>
+</html>
