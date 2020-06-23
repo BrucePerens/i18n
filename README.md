@@ -52,7 +52,7 @@ Translations = { # Assuming the coding language tag is "en-US"
     "the color of money" => "el color del dinero"
   },
   "es-MX" => { # Mexican Spanish
-    "color" => "color",
+    "the color of money" => "el color del dinero"
   },
   "de" => { # German (not distinguishing Swiss-German, etc.)
     "the color of money" => "die Farbe des Geldes",
@@ -75,7 +75,7 @@ or Mexican Spanish).
 
 Work-in-progress language translations are designated by modifying their
 language tag with a `"wip-` prefix. For example, a work-in-progress
-translation into Spanish would have the tag `"wip-es"`. To test a,
+translation into Spanish would have the tag `"wip-es"`. To test a
 work-in-progress translation, `language_tag` must be set to the modified
 form. It is possible for a work-in-progress translation and a completed
 one to exist to the same language, for example `"wip-es"` and `"es"`. This
