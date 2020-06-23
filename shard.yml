@@ -6,8 +6,4 @@ description: Internationalization of Crystal programs.
 authors:
   - Bruce Perens <bruce@perens.com>
 
-targets:
-
 crystal: 0.35.1
-
-dependencies:
