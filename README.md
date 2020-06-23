@@ -18,7 +18,7 @@ translations can indicate that a compilation check is not desired.
 An interpolated string is broken up into fixed string segments, and these
 are translated individually.
 
-The argument must be a constant string (including interpolated strings),
+The argument must be a literal string (including interpolated strings),
 not a method, expression, or variable. This is because much of the
 translation mechanism runs at compile-time.
 
