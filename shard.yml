@@ -6,4 +6,6 @@ description: Internationalization of Crystal programs.
 authors:
   - Bruce Perens <bruce@perens.com>
 
-crystal: 0.35.1
+crystal: 0.27
+
+license: Apache 2.0
