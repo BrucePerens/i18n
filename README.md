@@ -4,6 +4,7 @@ Usage
 -----
 
 ```
+  require "i18n"
   include I18n
 
   t "Any string." # => "translated string"
