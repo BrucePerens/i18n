@@ -1,14 +1,16 @@
 module I18n
   # Translation functions.
+  extend self
 
-  # :nodoc:
-  # This is the run-time translation function.
-  def do_translate(s : String) : String
-    if language_tag == CodingLanguage
+  def do_translate(language_tag : String, s : String) : String
+    if language_tag == ::CodingLanguage
       s
     else
-      Translations[language_tag][s] || s
+      ::Translations[language_tag][s] || s
     end
+  end
+
+  def language_tag_missing
   end
 
   # :nodoc:
@@ -28,7 +30,7 @@ module I18n
           {% raise "No #{k} translation exists for #{e} at #{e.filename}:#{e.line_number}" %}
       {% end %}
     {% end %}
-    do_translate({{e}})
+    ::I18n.do_translate(language_tag, {{e}})
   end
 
   # :nodoc:
@@ -40,9 +42,9 @@ module I18n
   private macro break_up(string)
     {% if string.class_name == "StringInterpolation" %}
       {% if flag?(:"emit-translation-strings") %}
-        {% p %Q(Interpolated String #{string} at #{string.filename.id}:#{string.line_number}).id %}
+        {% p %Q(# Interpolated String #{string} at #{string.filename.id}:#{string.line_number}).id %}
       {% end %}
-      %s = String::Builder.new;
+      %s = ::String::Builder.new;
       {% for e, index in string.expressions %}
         {% if e.class_name == "StringLiteral" %}
           {% if e.starts_with?(" ") %}
@@ -121,7 +123,7 @@ module I18n
   # }
   # ```
   #
-  # A constant `CodingLanguage` must exist in the program, and is set to a
+  # A constant `CodingLanguage` must exist at the top level, and is set to a
   # string indicating the language used to write the native strings. So it
   # would have the form `CodingLanguage="en-US"`. `CodingLanguage` should
   # indicate where it is spoken, thus `"en-US"` rather than `"en"`.
@@ -129,10 +131,10 @@ module I18n
   # spelling differences between US English and the English spoken in the
   # United Kingdom ("en-GB").
   #
-  # A variable or method `language_tag` must exist, which is or returns a
-  # string for the language tag of the present user. So, this would be of
-  # the form `language_tag = "es"` for Spanish (not distinguishing Castilian
-  # or Mexican Spanish).
+  # A variable or method `language_tag` must exist in the context where the
+  # `t()` method is called, which is or returns a string for the language tag
+  # of the present user. So, this would be of the form `language_tag = "es"`
+  # for Spanish (not distinguishing Castilian or Mexican Spanish).
   #
   # Work-in-progress language translations are designated by modifying their
   # language tag with a `"wip-` prefix, so that the compiler does not test

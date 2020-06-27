@@ -38,7 +38,7 @@ language tags are "en-US" for English as spoken in the United States, and
 "en" for English not distinguishing where it is spoken.
 
 Translations are defined in a `NamedTuple` called `Translations`, which
-must exist in the program. Each
+must exist at the top level. Each
 translation is defined as a tuple of a language tag and an inner tuple
 containing translations into that language from the native language
 used in the program (the "coding language"). Thus, the `Translations`
@@ -61,7 +61,7 @@ Translations = { # Assuming the coding language tag is "en-US"
 }
 ```
 
-A constant `CodingLanguage` must exist in the program, and is set to a
+A constant `CodingLanguage` must exist at the top level, and is set to a
 string indicating the language used to write the native strings. So it
 would have the form `CodingLanguage="en-US"`. `CodingLanguage` should
 indicate where it is spoken, thus `"en-US"` rather than `"en"`.
@@ -69,10 +69,13 @@ This allows, for example, a translation to correct for
 spelling differences between US English and the English spoken in the
 United Kingdom ("en-GB").
 
-A variable or method `language_tag` must exist, which is or returns a
+A variable or method `language_tag` must exist in the context where the
+`t()` function is called, which is or returns a
 string for the language tag of the present user. So, this would be of
 the form `language_tag = "es"` for Spanish (not distinguishing Castilian
-or Mexican Spanish).
+or Mexican Spanish). Note that language_tag need not be global, it may exist
+as a method or a local variable, as long as it is defined in all contexts
+where `t()` is called.
 
 Work-in-progress language translations are designated by modifying their
 language tag with a `"wip-` prefix, so that the compiler does not test those
