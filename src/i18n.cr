@@ -6,7 +6,11 @@ module I18n
     if language_tag == ::CodingLanguage
       s
     else
-      ::Translations[language_tag][s] || s
+      if (l = ::Translations.fetch(language_tag, nil))
+        l.fetch(s, s)
+      else
+        s
+      end
     end
   end
 
@@ -26,7 +30,7 @@ module I18n
       {% p %Q(#{e} => #{e}, \# #{(interpolated ? "Interpolated at " : "").id}#{e.filename.id}:#{e.line_number}).id %}
     {% end %}
     {% for k, v, index in Translations %}
-      {% if !(k =~ /^wip-/) && Translations[k][e].nil? %}
+      {% if !(k =~ /^wip-/) && v[e].nil? %}
           {% raise "No #{k} translation exists for #{e} at #{e.filename}:#{e.line_number}" %}
       {% end %}
     {% end %}
