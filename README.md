@@ -1,5 +1,9 @@
 # i18n for the Crystal programming language
 
+THIS IS THE OLD VERSION. The new version is at
+http://github.com/BrucePerens/internationalize, and will be checked in here
+when it's more stable.
+
 Usage
 -----
 
